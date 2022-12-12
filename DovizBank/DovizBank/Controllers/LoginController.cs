@@ -1,34 +1,37 @@
 ﻿using DovizBank.DAL;
-using DovizBank.Entity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DovizBank.Controllers
 {
-    public class IndexController : Controller
+    public class LoginController : Controller
     {
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
+        //Index.html sayfasında şifremi unuttum butonu yapılacak.
 
         [HttpPost]
         public string Index(string Username, string Password)
         {
             using (var _context = new AppDbContext())
             {
-                var user = _context.Users.Where(u => u.Username == Username && u.Password == Password).SingleOrDefault();                 
-                
-                if (user != null){
-                    if (user.Type=="Admin"){
+                var user = _context.Users.Where(u => u.Username == Username && u.Password == Password).SingleOrDefault();
+
+                if (user != null)
+                {
+                    if (user.Type == "Admin")
+                    {
                         return "Admin Sayfasına Gidilecek";
                     }
-                    else{
+                    else
+                    {
                         return "Kulanıcı Sayfasına Gidilecek";
-                    }                         
+                    }
                 }
-                else{
+                else
+                {
                     //kayıt ekranına gönderilecek
                     return "User Bulunamadı";
                 }

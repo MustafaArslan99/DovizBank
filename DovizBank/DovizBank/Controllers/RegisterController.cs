@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DovizBank.Controllers
 {
-    public class Kayit : Controller
+    public class RegisterController : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -20,7 +20,7 @@ namespace DovizBank.Controllers
                 _context.Add(user);
                 _context.SaveChanges();
                 return "Kullanıcı Eklendi";
-            } 
+            }
         }
     }
 }
