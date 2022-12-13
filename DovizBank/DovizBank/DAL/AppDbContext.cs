@@ -6,6 +6,8 @@ namespace DovizBank.DAL
     public class AppDbContext: DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<UserCurrency> UserCurrencies { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             Initilializer.Build();

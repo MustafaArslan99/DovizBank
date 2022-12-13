@@ -17,6 +17,8 @@ namespace DovizBank.Controllers
         {
             using (var _context = new AppDbContext())
             {
+                user.Balance = 1000;
+                user.Type = "User";
                 _context.Add(user);
                 _context.SaveChanges();
                 return "Kullanıcı Eklendi";

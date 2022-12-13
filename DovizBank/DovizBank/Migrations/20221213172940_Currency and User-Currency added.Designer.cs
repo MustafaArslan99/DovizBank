@@ -4,6 +4,7 @@ using DovizBank.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DovizBank.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221213172940_Currency and User-Currency added")]
+    partial class CurrencyandUserCurrencyadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,12 @@ namespace DovizBank.Migrations
                     b.Property<double>("Sale")
                         .HasColumnType("float");
 
+                    b.Property<int?>("UserCurrencyId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserCurrencyId");
 
                     b.ToTable("Currencies");
                 });
@@ -82,11 +90,16 @@ namespace DovizBank.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserCurrencyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("UserCurrencyId");
 
                     b.ToTable("Users");
                 });
@@ -102,9 +115,6 @@ namespace DovizBank.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("CurrencyId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -115,12 +125,30 @@ namespace DovizBank.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("UserCurrencies");
+                });
+
+            modelBuilder.Entity("DovizBank.Entity.Currency", b =>
+                {
+                    b.HasOne("DovizBank.Entity.UserCurrency", null)
+                        .WithMany("Currency")
+                        .HasForeignKey("UserCurrencyId");
+                });
+
+            modelBuilder.Entity("DovizBank.Entity.User", b =>
+                {
+                    b.HasOne("DovizBank.Entity.UserCurrency", null)
+                        .WithMany("User")
+                        .HasForeignKey("UserCurrencyId");
+                });
+
+            modelBuilder.Entity("DovizBank.Entity.UserCurrency", b =>
+                {
+                    b.Navigation("Currency");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
